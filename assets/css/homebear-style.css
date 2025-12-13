@@ -1,0 +1,463 @@
+/*loading overlay*/
+#loading-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+#loading-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Thanh dọc cố định */
+.scroll-bar-vertical {
+    position: fixed;      /* luôn cố định */
+    right: 10px;          /* đặt bên phải màn hình */
+    bottom: -6%;
+    transform: translateY(-50%);
+    width: 2px;           /* độ rộng */
+    height: 120px;        /* chiều cao */
+    background: #888;     /* màu xám */
+    border-radius: 3px;
+    overflow: hidden;
+    z-index: 2;
+}
+
+/* Đoạn trắng chạy dọc */
+.scroll-indicator-vertical {
+    position: absolute;
+    width: 100%;
+    height: 30px;          /* chiều cao đoạn chạy */
+    background: #fff;      /* màu trắng */
+
+    animation: runVertical 1.8s linear infinite;
+}
+
+/* Animation chạy từ trên xuống dưới */
+@keyframes runVertical {
+    0% {
+        top: -40px;      /* bắt đầu nằm ngoài thanh */
+    }
+    100% {
+        top: 100%;       /* chạy xuống dưới hoàn toàn */
+    }
+}
+
+/* =========================================
+   HEADER
+========================================= */
+h3.presentation-title {
+    font-size: 5em;
+}
+
+@media (max-width: 768px) {
+    h3.presentation-title {
+        font-size: 3em;
+    }
+}
+
+@media (max-width: 576px) {
+    h3.presentation-title {
+        font-size: 1.5em;
+    }
+}
+
+
+/* =========================================
+   NAVBAR – PHẦN CHUNG
+========================================= */
+.navbar-custom {
+    position: fixed;
+    z-index: 2000;
+    overflow: visible !important;
+}
+.navbar .navbar-sns-icon {
+    color: #ffffff !important;
+    font-size: 33px;
+    padding: 0 25px 0 0;
+}
+.navbar .navbar-sns-icon:hover {
+    opacity: 0.5;
+}
+/* Khi navbar trong suốt → màu trắng */
+.navbar.navbar-custom.navbar-transparent .navbar-sns-icon {
+    color: #fff !important;
+}
+/* Khi scroll → navbar mất .navbar-transparent → đổi màu */
+.navbar.navbar-custom:not(.navbar-transparent) .navbar-sns-icon {
+    color: #66615B !important;
+}
+
+/* =========================================
+   NAVBAR TOGGLER BUTTON
+========================================= */
+
+/* Base button */
+.navbar-custom .navbar-toggler {
+    position: relative;
+    width: 36px;
+    height: 26px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+/* NEW BAR CLASS */
+.navbar-custom .toggler-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: #fff;
+    border-radius: 3px;
+    transition:
+        transform 0.35s cubic-bezier(.25,.8,.25,1),
+        opacity 0.25s ease,
+        top 0.35s cubic-bezier(.25,.8,.25,1);
+}
+
+/* Positions */
+.navbar-custom .line1 { top: 0; }
+.navbar-custom .line2 { top: 11px; }
+.navbar-custom .line3 { top: 22px; }
+
+/* OPEN STATE – Hamburger → X */
+.navbar-custom .navbar-toggler.open .line1 {
+    top: 11px;
+    transform: rotate(45deg);
+}
+
+.navbar-custom .line2 {
+    transform-origin: right;
+}
+
+.navbar-custom .navbar-toggler.open .line2 {
+    transform: scaleX(0);
+}
+
+.navbar-custom .navbar-toggler.open .line3 {
+    top: 11px;
+    transform: rotate(-45deg);
+}
+
+/* Khi navbar trong suốt → màu trắng */
+.navbar.navbar-custom.navbar-transparent .toggler-line {
+    background: #fff !important;
+}
+
+/* Khi scroll → navbar mất .navbar-transparent → đổi màu */
+.navbar.navbar-custom:not(.navbar-transparent) .toggler-line {
+    background: #66615B !important;
+}
+
+/* =========================================
+   NAVBAR COLLAPSE (Bootstrap)
+========================================= */
+
+/* Cho phép collapse hoạt động như mobile trên mọi màn hình */
+.navbar-custom .navbar-collapse {
+    display: none !important;
+    width: 100%;
+    background: rgba(0,0,0,0.8);
+    padding: 15px;
+    border-radius: 0 0 6px 6px;
+}
+
+.navbar-custom .navbar-collapse.show {
+    display: block !important;
+}
+
+/* Desktop vẫn dùng layout mobile */
+@media (min-width: 992px) {
+    .navbar-custom .navbar-nav {
+        flex-direction: column !important;
+        width: 100%;
+        text-align: right;
+    }
+
+    .navbar-custom .nav-item {
+        margin: 10px 0;
+    }
+}
+
+/* RESET Paper Kit trên mobile */
+@media (max-width: 991px) {
+    nav.navbar.navbar-custom .navbar-collapse {
+        position: static !important;
+        display: none !important;
+        width: 100% !important;
+        height: auto !important;
+        top: auto !important;
+        right: auto !important;
+        background: none !important;
+        border: none !important;
+        transform: none !important;
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    nav.navbar.navbar-custom .navbar-collapse.show {
+        display: block !important;
+    }
+
+    html.nav-open .navbar.navbar-custom > .container,
+    html.nav-open .navbar.navbar-custom .navbar-translate {
+        transform: none !important;
+    }
+}
+
+/* =========================================
+   CUSTOM COLLAPSE (Hiệu ứng blur + slide)
+========================================= */
+
+/* collapse mặc định ẩn */
+.custom-collapse {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-20px) scale(0.98);
+    transition:
+        max-height 0.45s cubic-bezier(.25,.8,.25,1),
+        opacity 0.35s ease,
+        transform 0.45s cubic-bezier(.25,.8,.25,1);
+    z-index: -1 !important;
+    border-radius: 12px 0 0 12px;
+    box-shadow: 0 6px 10px -4px rgba(0, 0, 0, 0.15);
+}
+
+/* Khi navbar trong suốt → màu trắng */
+.navbar.navbar-custom.navbar-transparent .custom-collapse {
+    background: rgba(0,0,0,0);
+    /*backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);*/
+}
+.navbar.navbar-custom.navbar-transparent .custom-collapse .navbar-nav .nav-item .nav-link{
+    color: #ffffff !important;
+}
+
+/* Khi scroll → navbar mất .navbar-transparent → đổi màu */
+.navbar.navbar-custom:not(.navbar-transparent) .custom-collapse {
+    background: rgba(255,255,255,1);
+}
+.navbar.navbar-custom:not(.navbar-transparent) .custom-collapse .nav-item .nav-link{
+    color: #000000 !important;
+}
+.navbar.navbar-custom:not(.navbar-transparent) .custom-collapse .nav-item .nav-link:hover{
+    color: #66615B !important;
+}
+
+/* Mở */
+.custom-collapse.show {
+    max-height: 600px;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Nội dung nav */
+.custom-collapse .navbar-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    padding: 18px 18px;
+
+    /* hiệu ứng khắc phục flash */
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+        opacity 0.3s ease 0.1s,
+        transform 0.3s ease 0.1s;
+}
+
+/* Khi mở */
+.custom-collapse.show .navbar-nav {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.custom-collapse .nav-item {
+    width: 100%;
+    text-align: right;
+}
+
+@media (max-width: 991px) {
+    .navbar.navbar-custom .navbar-collapse,
+    .navbar.navbar-custom .navbar-collapse.show {
+        position: static !important;
+        transform: none !important;
+        height: auto !important;
+        width: 100% !important;
+        background: none !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        border: none !important;
+        display: none !important;
+    }
+}
+
+
+
+
+/*Home Header Image - Video*/
+#video_background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh; /* quan trọng: dùng height */
+    overflow: hidden;
+    z-index: 1;
+    background-position: center center;
+    background-size: cover;
+}
+
+/* VIDEO COVER MÀN HÌNH (CHUẨN NHẤT CHO YOUTUBE) */
+#video_background iframe {
+    position: absolute;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+}
+/* Overlay ban đầu phủ toàn bộ video */
+#video_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    background: rgba(0,0,0,1); /* đen 100% để che loading */
+    pointer-events: none;
+
+    animation: overlayFade 2s ease-out forwards;
+}
+
+/* Animation mờ dần */
+@keyframes overlayFade {
+    0% {
+        opacity: 1;      /* bắt đầu đen hoàn toàn */
+    }
+    100% {
+        opacity: 0;      /* biến mất hoàn toàn */
+    }
+}
+
+.title-brand-cus{
+    max-width: 730px;
+    position: relative;
+    color: #FFFFFF;
+    display: block;
+}
+/* NEWS ITEM */
+.news-item {
+    padding: 18px 10px;
+    color: white;
+    position: relative;
+}
+
+.news-item::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    bottom: 0;
+    width: 90%;
+    height: 1px;
+    background: rgba(255,255,255,0.6);
+}
+
+.news-badge {
+    display: inline-block;
+    padding: 2px 8px;
+}
+.news-badge img{
+    width: 28px;
+}
+.news-box {
+    padding: 2px 8px;
+}
+
+.news-date {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.news-title {
+    font-size: 1rem;
+    line-height: 1.4;
+}
+.news-content {
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+/* Swiper slides auto height */
+.newsSwiper .swiper-slide {
+    height: auto !important;
+}
+
+/* Spacing khi desktop 3 slide */
+@media (min-width: 768px) {
+    .newsSwiper .swiper-slide {
+        padding-right: 10px;
+    }
+}
+
+@media (max-width: 576px) {
+    .news-date {
+    font-size: 0.7rem;
+    }
+
+    .news-title {
+        font-size: 0.8rem;
+    }
+    .news-content {
+        font-size: 0.8rem;
+    }
+}
+
+/* Ẩn pagination */
+.swiper-pagination {
+    display: none !important;
+}
+
+/* Nút Prev / Next */
+.swiper-button-prev,
+.swiper-button-next {
+    position: relative !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 28px !important;
+    height: 28px !important;
+    color: #fff !important;
+    margin-top: 0 !important;
+    /*border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 50%;
+    backdrop-filter: blur(4px);*/
+}
+
+.swiper-button-prev:after,
+.swiper-button-next:after {
+    font-size: 18px !important;
+    font-weight: bold !important;
+}
+
+/* Đặt prev/next xuống dưới */
+.news-nav {
+    display: flex;
+    /*justify-content: space-between;*/
+    gap: 22px;
+    margin-top: 12px;
+}
