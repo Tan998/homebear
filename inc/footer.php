@@ -40,8 +40,8 @@
     <script src="<?= base_url ?>/assets/js/paper-kit.js?v=2.2.0" type="text/javascript"></script>
     <!--  Google Maps Plugin    -->
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
-    <!--Bundel-->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <!--Bundel
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>-->
     <!--script YouTube API-->
     <script src="https://www.youtube.com/iframe_api"></script>
     <!--====== WOW js ======-->
@@ -49,6 +49,13 @@
     
     <!--Custom-->
     <script src="<?= base_url ?>/assets/js/homebear.js?v=<?= version ?>"></script>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      initSmoothNavbar('.navbar-toggler', '#navigation');
+      loadLogoImage();
+    });
+    </script>
     <script>
       $(document).ready(function() {
 

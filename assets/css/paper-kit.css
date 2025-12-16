@@ -3064,8 +3064,8 @@ select,
 textarea {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
-  font-family: "YuGothic","Yu Gothic","游ゴシック","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ","Meiryo",sans-serif;
-  font-weight: 400;
+  /*font-family: "YuGothic","Yu Gothic","游ゴシック","ヒラギノ角ゴ Pro W3","Hiragino Kaku Gothic Pro","メイリオ","Meiryo",sans-serif;
+  font-weight: 400;*/
 }
 
 h1,

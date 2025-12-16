@@ -8,8 +8,8 @@
   </title>
   <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
+  <!--     Fonts and icons     
+  <link href="https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Kaisei+Decol&display=swap" rel="stylesheet">-->
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
 
   <!-- CSS Files -->
@@ -20,9 +20,12 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="<?= base_url ?>/assets/demo/demo.css" rel="stylesheet" />
 
-  <!--Bundle-->
+  <!--swiper-Bundle-->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
   <!--====== Animate CSS ======-->
   <link rel="stylesheet" href="<?= base_url ?>/assets/css/animate.css">
 
@@ -30,5 +33,11 @@
     const base_url = "<?= base_url ?>";
     const hp_bg_img_lg = "<?= hp_bg_img_lg ?>";
     const hp_bg_img_sm = "<?= hp_bg_img_sm ?>";
+    const base_logo_img_url = "<?= base_logo_img_url ?>";
   </script>
+
+  <script>
+    
+  </script>
+
 </head>

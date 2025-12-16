@@ -5,6 +5,8 @@ $host = $_SERVER['HTTP_HOST'];
 if(!defined('base_url')) define('base_url','http://localhost/homebear');
 if(!defined('base_app')) define('base_app', str_replace('\\','/',__DIR__).'/' );
 
+if(!defined('base_logo_img_url')) define('base_logo_img_url', base_url.'/admin/uploads/company_logo/');
+
 if(!defined('base_ttl_img_url')) define('base_ttl_img_url', base_url.'/admin/uploads/posts/title_img/');
 if(!defined('base_sub_img_url')) define('base_sub_img_url', base_url.'/admin/uploads/posts/sub_img/');
 
@@ -14,6 +16,10 @@ if(!defined('hp_bg_img_sm')) define('hp_bg_img_sm', base_url.'/admin/uploads/HP_
 //company profile img path
 if(!defined('company_profile_title_img')) define('company_profile_title_img', base_url.'/admin/uploads/company_profile/title_img/1/');
 if(!defined('company_profile_top_bg_img')) define('company_profile_top_bg_img', base_url.'/admin/uploads/company_profile/sub_img/1/');
+
+//company profile VER 2 img path
+if(!defined('company_profile_ver2_title_img')) define('company_profile_ver2_title_img', base_url.'/admin/uploads/company_profile_ver2/title_img/1/');
+if(!defined('company_profile_ver2_top_bg_img')) define('company_profile_ver2_top_bg_img', base_url.'/admin/uploads/company_profile_ver2/sub_img/1/');
 
 //database
 if ($host === 'localhost') {

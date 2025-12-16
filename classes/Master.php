@@ -916,6 +916,277 @@ Class Master extends DBConnection {
 	    ]);
 	}
 
+	function fetch_company_profile_ver2() {
+
+	    // 1) Lấy profile đầu tiên (chỉ có 1)
+	    $sql = "SELECT * FROM company_profile_ver2 ORDER BY id ASC LIMIT 1";
+	    $stmt = $this->conn->prepare($sql);
+
+	    if (!$stmt) {
+	        return json_encode([
+	            "status" => "failed",
+	            "error"  => "Prepare failed: " . $this->conn->error
+	        ]);
+	    }
+
+	    if (!$stmt->execute()) {
+	        return json_encode([
+	            "status" => "failed",
+	            "error"  => "Execute failed: " . $stmt->error
+	        ]);
+	    }
+
+	    $profile = $stmt->get_result()->fetch_assoc();
+	    $stmt->close();
+
+	    if (!$profile) {
+	        return json_encode([
+	            "status" => "failed",
+	            "error"  => "Profile not found"
+	        ]);
+	    }
+
+	    $profile_id = $profile["id"];
+
+
+	    // 2) Lấy list field động
+	    $sql_fields = "
+	        SELECT field_key, field_value, sort_order 
+	        FROM company_profile_fields_ver2 
+	        WHERE company_profile_id = ?
+	        ORDER BY sort_order ASC
+	    ";
+	    $stmt_fields = $this->conn->prepare($sql_fields);
+	    $stmt_fields->bind_param("i", $profile_id);
+	    $stmt_fields->execute();
+	    $result_fields = $stmt_fields->get_result();
+
+	    $fields = [];
+	    while ($row = $result_fields->fetch_assoc()) {
+	        $fields[] = $row;
+	    }
+	    $stmt_fields->close();
+
+
+	    // 3) Lấy sub images (nhiều ảnh)
+	    $sql_imgs = "
+	        SELECT file_name FROM company_profile_images_ver2 
+	        WHERE company_profile_id = ?
+	        ORDER BY id ASC
+	    ";
+	    $stmt_imgs = $this->conn->prepare($sql_imgs);
+	    $stmt_imgs->bind_param("i", $profile_id);
+	    $stmt_imgs->execute();
+	    $result_imgs = $stmt_imgs->get_result();
+
+	    $sub_imgs = [];
+	    while ($row = $result_imgs->fetch_assoc()) {
+	        $sub_imgs[] = $row["file_name"];
+	    }
+	    $stmt_imgs->close();
+
+
+	    // 4) Gom data trả về
+	    $profile["fields"] = $fields;
+	    $profile["sub_images"] = $sub_imgs;
+
+	    return json_encode([
+	        "status" => "success",
+	        "data"   => $profile
+	    ]);
+	}
+
+	function fetch_logo_img() {
+	    // 1. Truy vấn thông tin ảnh nền
+	    $sql = "SELECT * 
+	            FROM company_logo_settings 
+	            ORDER BY id DESC 
+	            LIMIT 1";
+
+	    $stmt = $this->conn->prepare($sql);
+	    if (!$stmt) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error' => 'Prepare failed: ' . $this->conn->error
+	        ]);
+	    }
+
+	    if (!$stmt->execute()) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error' => 'Execute failed: ' . $stmt->error
+	        ]);
+	    }
+
+	    $result = $stmt->get_result();
+	    $bg_data = $result->fetch_assoc();
+	    $stmt->close();
+
+	    if (!$bg_data) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error' => 'No data found'
+	        ]);
+	    }
+
+	    // 2. Trả kết quả
+	    return json_encode([
+	        'status' => 'success',
+	        'data' => $bg_data
+	    ]);
+	}
+
+	function fetch_font_text() {
+
+	    // 1. Lấy page_key từ GET
+	    $page_key = $_GET['page_key'] ?? '';
+
+	    if ($page_key === '') {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error'  => 'Missing page_key'
+	        ]);
+	    }
+
+	    // 2. Query đúng page_key, lấy bản ghi mới nhất
+	    $sql = "
+	        SELECT *
+	        FROM font_settings
+	        WHERE page_key = ?
+	        ORDER BY id DESC
+	        LIMIT 1
+	    ";
+
+	    $stmt = $this->conn->prepare($sql);
+	    if (!$stmt) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error' => 'Prepare failed: ' . $this->conn->error
+	        ]);
+	    }
+
+	    $stmt->bind_param("s", $page_key);
+
+	    if (!$stmt->execute()) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error' => 'Execute failed: ' . $stmt->error
+	        ]);
+	    }
+
+	    $result = $stmt->get_result();
+	    $font = $result->fetch_assoc();
+	    $stmt->close();
+
+	    if (!$font) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error' => 'Font not found for page_key'
+	        ]);
+	    }
+
+	    // 3. Trả dữ liệu
+	    return json_encode([
+	        'status' => 'success',
+	        'data'   => $font
+	    ]);
+	}
+
+	function fetch_projects_page_data() {
+	    /* =============================
+	       1. PROJECT SETTINGS
+	    ============================== */
+	    $sql = "SELECT *
+	            FROM project_settings
+	            ORDER BY id DESC
+	            LIMIT 1";
+	    $stmt = $this->conn->prepare($sql);
+	    if (!$stmt) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error'  => 'Prepare settings failed: ' . $this->conn->error
+	        ]);
+	    }
+	    if (!$stmt->execute()) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error'  => 'Execute settings failed: ' . $stmt->error
+	        ]);
+	    }
+	    $settings = $stmt->get_result()->fetch_assoc();
+	    $stmt->close();
+
+	    if (!$settings) {
+	        $settings = [
+	            'top_bg_image' => null,
+	            'footer_text'  => ''
+	        ];
+	    }
+
+	    /* =============================
+	       2. PROJECT CATEGORIES
+	    ============================== */
+	    $sql = "SELECT *
+	            FROM project_categories
+	            ORDER BY sort_order ASC";
+	    $stmt = $this->conn->prepare($sql);
+	    if (!$stmt) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error'  => 'Prepare categories failed: ' . $this->conn->error
+	        ]);
+	    }
+	    $stmt->execute();
+	    $result = $stmt->get_result();
+
+	    $categories = [];
+	    while ($row = $result->fetch_assoc()) {
+	        $row['items'] = [];
+	        $categories[$row['id']] = $row;
+	    }
+	    $stmt->close();
+	    if (empty($categories)) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error'  => 'No categories found'
+	        ]);
+	    }
+
+	    /* =============================
+	       3. PROJECT ITEMS
+	    ============================== */
+	    $sql = "SELECT *
+	            FROM project_items
+	            ORDER BY sort_order ASC";
+
+	    $stmt = $this->conn->prepare($sql);
+	    if (!$stmt) {
+	        return json_encode([
+	            'status' => 'failed',
+	            'error'  => 'Prepare items failed: ' . $this->conn->error
+	        ]);
+	    }
+	    $stmt->execute();
+	    $result = $stmt->get_result();
+	    while ($item = $result->fetch_assoc()) {
+	        if (isset($categories[$item['category_id']])) {
+	            $categories[$item['category_id']]['items'][] = $item;
+	        }
+	    }
+	    $stmt->close();
+
+	    /* =============================
+	       4. RETURN JSON
+	    ============================== */
+	    return json_encode([
+	        'status' => 'success',
+	        'data' => [
+	            'settings'   => $settings,
+	            'categories' => array_values($categories)
+	        ]
+	    ]);
+	}
+
 
 }
 
@@ -949,6 +1220,19 @@ switch ($action) {
 	case 'fetch_company_profile':
 		echo $Master->fetch_company_profile();
 	break;
+	case 'fetch_company_profile_ver2':
+		echo $Master->fetch_company_profile_ver2();
+	break;
+	case 'fetch_logo_img':
+		echo $Master->fetch_logo_img();
+	break;
+	case 'fetch_font_text':
+		echo $Master->fetch_font_text();
+	break;
+	case 'fetch_projects_page_data':
+		echo $Master->fetch_projects_page_data();
+	break;
+	
 	default:
 		echo $Master->index();
 		break;

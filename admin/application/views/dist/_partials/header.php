@@ -119,6 +119,11 @@ if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") { ?>
   <!-- Template CSS -->
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css">
   <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/components.css">
+
+
+<!-- SortableJS -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
@@ -129,6 +134,7 @@ if ($this->uri->segment(2) == "" || $this->uri->segment(2) == "index") { ?>
   gtag('config', 'UA-94034622-3');
 </script>
 <!-- /END GA --></head>
+
 
 <?php
 if ($this->uri->segment(2) == "layout_transparent") {

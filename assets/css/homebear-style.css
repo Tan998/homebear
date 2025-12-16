@@ -307,6 +307,34 @@ h3.presentation-title {
     }
 }
 
+.custom-collapse .swap-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: inherit;
+}
+
+.custom-collapse .text-original {
+  transition: opacity .25s ease;
+  display: inline-block;
+}
+
+.custom-collapse .text-hover {
+  position: absolute;
+  line-height: inherit;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .25s ease;
+}
+
+/* Hover */
+.custom-collapse  .hover-swap:hover .text-original {
+  opacity: 0;
+}
+.custom-collapse .hover-swap:hover .text-hover {
+  opacity: 1;
+}
 
 
 
@@ -460,4 +488,295 @@ h3.presentation-title {
     /*justify-content: space-between;*/
     gap: 22px;
     margin-top: 12px;
+}
+
+/*** Style Company ***/
+.bg-light-cus {
+    background-color: #f5f5f5 !important;
+}
+#profile-content .text-title{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+#profile-content #contents .text-company-profile{
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+#profile-content #main_contents #profile-image{
+    max-height: 800px !important;
+}
+#profile-content #main_contents #profile-text{
+    font-size: 1.1rem;
+    white-space: break-spaces;
+}
+
+#profile-content .table td, .table th {
+      vertical-align: top;
+}
+#profile-content .prewrap { word-break: break-word; }
+  #profile-content .field-name {
+      font-weight: 600;
+      width: 200px;
+      min-width: 160px;
+}
+/* Responsive: hiển thị block trên màn hình nhỏ (nếu muốn) */
+@media (max-width: 575.98px) {
+    #profile-content .field-name { width: 10%; }
+}
+
+/* =========================================================
+PROJECT PAGE
+========================================================= */
+#projects_content .page-title {
+    text-align: center;
+    margin: 60px 0 40px;
+}
+
+#projects_content .page-title h1 {
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+#projects_content .page-title small {
+    display: block;
+    font-size: 18px;
+    color: #555;
+}
+
+
+/* =========================================================
+   2. SECTION
+========================================================= */
+#projects_content .section-title {
+    font-weight: 700;
+    font-size: 20px;
+    color: #1f2a44;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #333;
+    margin-bottom: 30px;
+}
+
+
+/* =========================================================
+   3. DESKTOP TABLE LAYOUT
+========================================================= */
+#projects_content .project-header {
+    font-weight: 600;
+    color: #555;
+}
+
+#projects_content .project-row {
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+    align-items: center;
+}
+
+
+/* =========================================================
+   4. IMAGE WRAP (HOVER + SKELETON)
+========================================================= */
+#projects_content .image-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    border-radius: 4px;
+    background: #eee;
+}
+
+/* skeleton shimmer */
+#projects_content .image-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        90deg,
+        #e5e5e5 25%,
+        #f2f2f2 37%,
+        #e5e5e5 63%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-loading 1.4s ease infinite;
+    z-index: 1;
+}
+
+@keyframes skeleton-loading {
+    0% { background-position: 100% 0; }
+    100% { background-position: -100% 0; }
+}
+
+/* remove skeleton when loaded */
+#projects_content .image-wrap.loaded::before {
+    display: none;
+}
+
+/* image */
+#projects_content .image-wrap img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    position: relative;
+    z-index: 2;
+}
+#projects_content .image-wrap img[src$="/null"],
+#projects_content .image-wrap img[src=""] {
+    display: none;
+}
+
+/* loaded image */
+#projects_content .image-wrap.loaded img {
+    opacity: 1;
+}
+
+/* hover zoom */
+#projects_content .image-wrap:hover img {
+    transform: scale(1.08);
+}
+
+/* hover overlay */
+#projects_content .image-wrap::after {
+    content: "拡大";
+    position: absolute;
+    inset: 0;
+    background: rgba(31,42,68,0.55);
+    color: #fff;
+    font-size: 14px;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: 0.3s;
+    z-index: 3;
+}
+
+#projects_content .image-wrap:hover::after {
+    opacity: 1;
+}
+
+
+/* =========================================================
+   5. MOBILE CARD
+========================================================= */
+/* MOBILE PROJECT CARD */
+#projects_content .project-card {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 220px;
+    background: #eaeaea;
+}
+
+/* IMAGE FULL CARD */
+#projects_content .project-card .image-wrap {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: unset;
+}
+
+#projects_content .project-card .image-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45); 
+    z-index: 2;
+    opacity: 1;
+}
+
+#projects_content .project-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* DARK OVERLAY (để chữ dễ đọc) */
+#projects_content .project-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0,0,0,0.55),
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0)
+    );
+    z-index: 1;
+}
+
+/* TEXT OVER IMAGE */
+#projects_content .project-card .project-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    padding: 12px 14px;
+    z-index: 3;
+
+    color: #fff;
+}
+
+#projects_content .project-card .project-text p {
+    margin: 0 0 4px;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+#projects_content .project-card .project-text strong {
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   6. SWIPER (MOBILE ONLY)
+========================================================= */
+#projects_content .swiper-container {
+    padding-bottom: 20px;
+}
+/* ===== SWIPER NAVIGATION ===== */
+#projects_content .project-prev,
+#projects_content .project-next {
+    color: #1f2a44 !important;
+    width: 32px !important;
+    height: 32px !important;
+}
+
+#projects_content .project-prev::after,
+#projects_content .project-next::after {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#projects_content .project-prev {
+    left: 0;
+}
+
+#projects_content .project-next {
+    right: 0;
+}
+
+
+/* =========================================================
+   7. FOOTER TEXT
+========================================================= */
+#projects_content .note {
+    text-align: right;
+    font-size: 13px;
+    color: #666;
+    margin-top: 10px;
+}
+
+#projects_content .bottom-text {
+    margin: 60px 0 40px;
+    font-size: 14px;
+    line-height: 1.8;
+    text-align: center;
+    border-top: 3px double #333;
+    padding-top: 30px;
 }
