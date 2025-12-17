@@ -9,7 +9,7 @@
         <div class="section-body">
 
             <?php if (!$has_profile): ?>
-                <a class="btn btn-primary mb-3" href="<?= site_url('company_profile_ver2/create') ?>">
+                <a class="btn btn-primary mb-3" href="<?= site_url('Company_Profile_Manager_Ver2/create') ?>">
                     新しい会社概要を作成する
                 </a>
             <?php endif; ?>
