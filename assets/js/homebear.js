@@ -83,13 +83,18 @@ function initSmoothNavbar(btnSelector, collapseSelector) {
 }
 //=====  get Current Page Key
 function getCurrentPageKey() {
-    const path = window.location.pathname; 
+    const path = window.location.pathname.replace(/\/+$/, ''); // bỏ slash cuối
+    const parts = path.split('/').filter(Boolean);
 
-    const parts = path.split("/").filter(Boolean);
-    // ["homebear", "company_ver2"]
+    // Nếu chỉ có 1 segment → dùng luôn
+    if (parts.length === 1) {
+        return parts[0];
+    }
 
-    return parts.length >= 2 ? parts[1] : "";  
+    // Nếu có nhiều segment → lấy segment cuối
+    return parts[parts.length - 1];
 }
+
 
 const current_page_key = getCurrentPageKey();
 
