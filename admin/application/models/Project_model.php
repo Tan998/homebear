@@ -78,6 +78,22 @@ class Project_model extends CI_Model {
     }
 
     public function update_settings($data) {
-        return $this->db->where('id', 1)->update('project_settings', $data);
+        return $this->save_settings($data);
     }
+    public function save_settings($data)
+    {
+        $exists = $this->db
+            ->where('id', 1)
+            ->count_all_results('project_settings');
+
+        if ($exists == 0) {
+            $data['id'] = 1;
+            return $this->db->insert('project_settings', $data);
+        }
+
+        return $this->db
+            ->where('id', 1)
+            ->update('project_settings', $data);
+    }
+
 }
